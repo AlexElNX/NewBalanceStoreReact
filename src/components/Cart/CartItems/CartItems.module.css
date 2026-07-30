@@ -1,0 +1,20 @@
+.cartHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.cartHeader h2 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.cartItemCount {
+    color: #666;
+}
+
+.cartItems {
+    display: flex;
+    flex-direction: column;
+}
+
