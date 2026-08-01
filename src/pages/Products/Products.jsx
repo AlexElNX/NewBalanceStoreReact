@@ -6,9 +6,10 @@ import { products } from "../../data/productsData.js";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { useSearchParams } from "react-router-dom";
 import ProductFilters from "../../components/ProductFilters/ProductFilters.jsx";
-import {useRef, useState} from "react";
+import { useRef, useState } from "react";
 import ProductDrawer from "../../components/ProductDrawer/ProductDrawer.jsx";
-import {addToRecentlyViewed} from "../../utils/recentlyViewed.js";
+import { addToRecentlyViewed } from "../../utils/recentlyViewed.js";
+import AddedToBagPopup from "../../components/AddedToBagPopup/AddedToBagPopup.jsx";
 
 
 function Products() {
@@ -158,7 +159,18 @@ function Products() {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
 
+    const [showAddedPopup, setShowAddedPopup] = useState(false);
 
+    const handleAddedToCart = () => {
+        setShowAddedPopup(true);
+
+        setTimeout(() => {
+            setShowAddedPopup(false);
+        }, 2000);
+    };
+
+
+    const [showFilters, setShowFilters] = useState(true);
     const pageRef = useRef(null);
 
     return (
@@ -173,32 +185,40 @@ function Products() {
 
                 <h1 className={styles.categoryTitle}></h1>
 
-                <div className={styles.productsWrapper}>
-                    <ProductFilters
-                        filters={filters}
-                        setFilters={setFilters}
-                        initialFilters={initialFilters}
-                    />
+                <div className={styles.productsToolbar}>
+                    <button
+                        className={styles.filtersBtn}
+                        onClick={() => setShowFilters(prev => !prev)}
+                    >
+                        {showFilters ? "☰  Hide Filters" : "☰  Show Filters"}
+                    </button>
+
+                    <select     className={styles.sortSelect}
+                                value={sortBy}
+                                onChange={(e) => setSortBy(e.target.value)}
+                    >
+
+                        <option value="featured">Featured</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="newest">Newest</option>
+                        <option value="available">Available</option>
+                    </select>
+
+                </div>
+
+                <div className={`${styles.productsWrapper} ${!showFilters ? styles.productsWrapperNoFilters : ""}`}>
+                    {showFilters && (
+                        <ProductFilters
+                            filters={filters}
+                            setFilters={setFilters}
+                            initialFilters={initialFilters}
+                        />
+                    )}
+
 
                     <div className={styles.productsContent}>
-
-                        <div className={styles.productsToolbar}>
-
-                            <select     className={styles.sortSelect}
-                                        value={sortBy}
-                                        onChange={(e) => setSortBy(e.target.value)}
-                            >
-
-                                <option value="featured">Featured</option>
-                                <option value="price-low">Price: Low to High</option>
-                                <option value="price-high">Price: High to Low</option>
-                                <option value="newest">Newest</option>
-                                <option value="available">Available</option>
-                            </select>
-
-                        </div>
-
-                        <section className={styles.productGrid}>
+                        <section className={`${styles.productGrid} ${!showFilters ? styles.productGridWide : ""}`}>
                             {sortedProducts.map(product => (
                                 <ProductCard
                                     key={product.id}
@@ -224,8 +244,10 @@ function Products() {
                 product={selectedProduct}
                 activeColor={selectedColor}
                 onClose={() => setSelectedProduct(null)}
+                onAddedToCart={handleAddedToCart}
             />
 
+            {showAddedPopup && <AddedToBagPopup />}
             <Footer />
         </>
     )

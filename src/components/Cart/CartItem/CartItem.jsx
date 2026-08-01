@@ -1,5 +1,7 @@
 import styles from './CartItem.module.css'
 import { updateCartQuantity, removeFromCart, getCart } from "../../../utils/cartStorage";
+import ConfirmModal from "../../ConfirmModal/ConfirmModal.jsx";
+import {useState} from "react";
 
 function CartItem({ cartProduct, setCart }) {
     const product = cartProduct.product;
@@ -46,8 +48,13 @@ function CartItem({ cartProduct, setCart }) {
         setCart(getCart());
     };
 
-    const removeClick = () => {
 
+    const [showConfirm, setShowConfirm] = useState(false);
+    const removeClick = () => {
+        setShowConfirm(true);
+    };
+
+    const confirmRemove = () => {
 
         removeFromCart(
             product.id,
@@ -56,6 +63,8 @@ function CartItem({ cartProduct, setCart }) {
         );
 
         setCart(getCart());
+
+        setShowConfirm(false);
     };
 
     return (
@@ -104,6 +113,14 @@ function CartItem({ cartProduct, setCart }) {
                     </div>
                 </div>
             </div>
+
+            <ConfirmModal
+                isOpen={showConfirm}
+                title="Remove item?"
+                message={`Remove "${product.name}" from your bag?`}
+                onConfirm={confirmRemove}
+                onCancel={() => setShowConfirm(false)}
+            />
         </>
     )
 }

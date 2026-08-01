@@ -1,5 +1,3 @@
-// import { openProductDrawer } from "/js/productDrawer.js";
-
 export class Product {
     id;
     images;
@@ -50,4 +48,6 @@ export class Product {
         this.inStock = inStock;
         this.isSale = isSale;
     }
+
+
 }

@@ -21,7 +21,6 @@ function ProductCard({ product, onQuickAdd, page }) {
 
 
     const isHome = page === "home";
-    const isProducts = page === "products";
     const isCart = page === "cart";
 
     return (

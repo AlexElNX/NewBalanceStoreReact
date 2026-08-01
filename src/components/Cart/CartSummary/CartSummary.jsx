@@ -1,6 +1,5 @@
 import styles from './CartSummary.module.css'
 import { useNavigate } from "react-router-dom";
-import { getCart } from "../../../utils/cartStorage.js";
 import { products } from "../../../data/productsData.js";
 
 function SummaryRow({ left, right }) {
@@ -22,14 +21,8 @@ function CartSummary({ cart }) {
         };
     });
 
-    const productCount = cartProducts.reduce(
-        (sum, item) => sum + item.quantity,
-        0
-    );
-
     const subtotal = cartProducts.reduce(
-        (sum, item) => sum + item.product.price * item.quantity,
-        0
+        (sum, item) => sum + item.product.price * item.quantity, 0
     );
 
     const navigate = useNavigate();
@@ -60,9 +53,7 @@ function CartSummary({ cart }) {
                     <span>${subtotal.toFixed(2)}</span>
                 </div>
 
-                { productCount > 0 &&
-                    <button className={styles.checkoutBtn} onClick={checkoutClick}>Checkout</button>
-                }
+                <button className={styles.checkoutBtn} onClick={checkoutClick}>Checkout</button>
             </div>
         </>
     )

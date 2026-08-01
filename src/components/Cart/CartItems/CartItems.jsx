@@ -1,6 +1,7 @@
 import styles from './CartItems.module.css';
 import { products } from "../../../data/productsData";
 import CartItem from "../CartItem/CartItem";
+import { Link } from "react-router-dom";
 
 function CartItems({cart, setCart}) {
 
@@ -23,16 +24,29 @@ function CartItems({cart, setCart}) {
                 <span className={styles.cartItemCount}>
                     {productCount} {productCount === 1 ? "Item" : "Items"}
                 </span>
-
             </div>
 
-            {cartProducts.map(item => (
-                <CartItem
+            { cartProducts.length === 0 ? (
+                    <div className={styles.emptyCart}>
+                        <h3>Your bag is empty</h3>
+
+                        <p>There are no items in your bag.</p>
+
+                        <Link
+                            to="/products"
+                            className={styles.continueBtn}
+                        >
+                            Continue Shopping
+                        </Link>
+                    </div>
+                ) : (cartProducts.map(item => (
+                    <CartItem
                     key={`${item.product.id}-${item.color}-${item.size}`}
                     cartProduct={item}
                     setCart={setCart}
                 />
-            ))}
+                ))
+            )}
 
         </div>
     );

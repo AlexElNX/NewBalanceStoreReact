@@ -12,6 +12,7 @@ import RecentlyViewed from "../../components/Cart/RecentlyViewed/RecentlyViewed.
 function Cart() {
     const [cart, setCart] = useState(getCart());
     const cartRef = useRef(null);
+    const hasItems = cart.length > 0;
     return (
         <>
             <TopHeader />
@@ -24,15 +25,17 @@ function Cart() {
             </section>
 
 
-            <div className={styles.cartContainer}>
+            <div className={`${styles.cartContainer} ${!hasItems ? styles.cartContainerFull : ""}`}>
                 <CartItems
                     cart={cart}
                     setCart={setCart}
                 />
 
-                <CartSummary
-                    cart={cart}
-                />
+                {hasItems && (
+                    <CartSummary
+                        cart={cart}
+                    />
+                )}
             </div>
 
             <RecentlyViewed />

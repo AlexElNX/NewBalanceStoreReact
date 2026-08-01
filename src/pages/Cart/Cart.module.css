@@ -19,10 +19,14 @@
 }
 
 
-
 .cartContainer {
     display: grid;
     grid-template-columns: 1fr 880px;
     margin-left: 350px;
     gap: 50px;
+}
+
+.cartContainerFull {
+    margin-right: 350px;
+    grid-template-columns: 1fr;
 }

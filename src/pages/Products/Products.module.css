@@ -91,6 +91,9 @@ body.productsPage .mainHeader .header-icons img {
 
     align-items: start;
 }
+.productsWrapperNoFilters {
+    grid-template-columns: 1fr;
+}
 
 /* ===== PRODUCTS ===== */
 
@@ -101,6 +104,10 @@ body.productsPage .mainHeader .header-icons img {
     row-gap: 40px;
 
     max-width: 1200px;
+}
+
+.productGridWide {
+    grid-template-columns: repeat(4, minmax(460px,1fr));
 }
 
 /* ===== CARD ===== */
@@ -161,12 +168,12 @@ body.productsPage .mainHeader .header-icons img {
 
 .productsToolbar {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
 
-    margin-top: -55px;
     margin-bottom: 25px;
 
-    margin-right: -230px;
+    width: 100%;
 }
 
 .sortSelect {
@@ -176,273 +183,41 @@ body.productsPage .mainHeader .header-icons img {
 
     font-size: 16px;
     cursor: pointer;
+
+    margin-right: -10px;
+
 }
 
 
+.productsTopBar{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
 
+    margin-bottom: 35px;
+}
 
-/*!* ==========================================*/
-/*   PRODUCT DRAWER*/
-/*========================================== *!*/
+.filtersBtn{
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
-/*.productDrawerOverlay {*/
-/*    position: fixed;*/
-/*    inset: 0;*/
+    background: white;
+    border: 1px solid #d7d7d7;
 
-/*    background: rgba(0,0,0,.35);*/
+    padding: 10px 18px;
 
-/*    opacity: 0;*/
-/*    visibility: hidden;*/
+    font-size: 15px;
+    font-weight: 600;
 
-/*    transition: .25s;*/
+    cursor: pointer;
 
-/*    z-index: 9998;*/
-/*}*/
+    transition: .2s;
+}
 
-/*.productDrawerOverlay.open {*/
-/*    opacity: 1;*/
-/*    visibility: visible;*/
-/*}*/
-
-/*.productDrawer {*/
-/*    position: fixed;*/
-
-/*    top: 0;*/
-/*    right: -1000px;*/
-
-/*    width: 980px;*/
-/*    height: 100vh;*/
-
-/*    background: white;*/
-
-/*    display: grid;*/
-/*    grid-template-columns: 1fr 400px;*/
-
-/*    transition: .35s ease;*/
-
-/*    z-index: 9999;*/
-/*}*/
-
-/*.productDrawer.open {*/
-/*    right: 0;*/
-/*}*/
-
-/*!* ==========================================*/
-/*   CLOSE*/
-/*========================================== *!*/
-
-/*.drawerClose {*/
-/*    position: absolute;*/
-
-/*    top: 15px;*/
-/*    right: 15px;*/
-
-/*    width: 28px;*/
-/*    height: 28px;*/
-
-/*    border: none;*/
-/*    background: transparent;*/
-
-/*    font-size: 20px;*/
-/*    font-weight: 300;*/
-
-/*    cursor: pointer;*/
-
-/*    z-index: 10;*/
-/*}*/
-
-/*!* ==========================================*/
-/*   LEFT SIDE*/
-/*========================================== *!*/
-
-/*.drawerGallery {*/
-/*    overflow-y: auto;*/
-
-/*    padding-top: 8px;*/
-/*    padding-left: 8px;*/
-/*    padding-right: 8px;*/
-
-/*    height: 100vh;*/
-/*}*/
-
-/*.drawerGallery::-webkit-scrollbar {*/
-/*    width: 8px;*/
-/*}*/
-
-/*.drawerGallery::-webkit-scrollbar-thumb {*/
-/*    background: #d8d8d8;*/
-/*}*/
-
-/*.drawerGallery img {*/
-/*    width: 100%;*/
-/*    min-width: 380px;*/
-
-/*    background: #f6f6f6;*/
-
-/*    display: block;*/
-
-/*    margin-bottom: 2px;*/
-/*}*/
-
-/*!* ==========================================*/
-/*   RIGHT SIDE*/
-/*========================================== *!*/
-
-/*.drawerInfo {*/
-/*    border-left: 1px solid #ececec;*/
-
-/*    padding: 40px 35px;*/
-
-/*    overflow-y: auto;*/
-/*}*/
-
-/*#drawer-name {*/
-/*    font-family: "Libre Baskerville", serif;*/
-
-/*    font-size: 40px;*/
-/*    font-weight: 400;*/
-
-/*    line-height: 1;*/
-/*}*/
-
-/*#drawer-price {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    gap: 10px;*/
-
-/*    margin-top: 8px;*/
-/*    margin-bottom: 25px;*/
-/*}*/
-
-/*#drawer-price .current-price {*/
-/*    font-size: 18px;*/
-/*    color: #111;*/
-/*}*/
-
-/*#drawer-price .old-price {*/
-/*    font-size: 16px;*/
-/*    color: #888;*/
-
-/*    text-decoration: line-through;*/
-/*}*/
-/*!* ==========================================*/
-/*   COLORS*/
-/*========================================== *!*/
-
-/*#drawer-colors {*/
-/*    display: grid;*/
-/*    grid-template-columns: repeat(5, 1fr);*/
-
-/*    gap: 8px;*/
-
-/*    margin-bottom: 30px;*/
-/*}*/
-
-/*.drawer-color {*/
-/*    width: 62px;*/
-/*    height: 62px;*/
-
-/*    border: 1px solid transparent;*/
-
-/*    background: #f5f5f5;*/
-
-/*    cursor: pointer;*/
-/*}*/
-
-/*.drawer-color img {*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-
-/*    object-fit: cover;*/
-/*}*/
-
-/*.drawer-color.active {*/
-/*    border: 1px solid #111;*/
-/*}*/
-
-/*!* ==========================================*/
-/*   SIZES*/
-/*========================================== *!*/
-
-/*#drawer-sizes {*/
-/*    display: grid;*/
-/*    grid-template-columns: repeat(3, 1fr);*/
-
-/*    gap: 0;*/
-
-/*    margin-bottom: 35px;*/
-/*}*/
-
-/*.drawer-size {*/
-/*    height: 46px;*/
-
-/*    border: 1px solid #d9d9d9;*/
-/*    background: white;*/
-
-/*    cursor: pointer;*/
-
-/*    font-size: 15px;*/
-/*}*/
-
-/*.drawer-size:hover {*/
-/*    border-color: black;*/
-/*}*/
-
-/*.drawer-size.active {*/
-/*    background: black;*/
-/*    color: white;*/
-/*}*/
-
-/*.drawer-size.unavailable {*/
-/*    color: #bdbdbd;*/
-
-/*    text-decoration: line-through;*/
-
-/*    cursor: default;*/
-/*}*/
-
-/*!* ==========================================*/
-/*   BUTTON*/
-/*========================================== *!*/
-
-/*#drawer-add-to-cart {*/
-/*    width: 330px;*/
-/*    height: 50px;*/
-
-/*    background: black;*/
-/*    color: white;*/
-
-/*    border: none;*/
-
-/*    font-size: 16px;*/
-/*    font-weight: 600;*/
-
-/*    cursor: pointer;*/
-/*}*/
-
-/*#drawer-add-to-cart:hover {*/
-/*    background: #222;*/
-/*}*/
-/*!* ===== HOVER ===== *!*/
-
-/*.product-card img {*/
-/*    transition: opacity .25s ease;*/
-/*}*/
-
-
-/*.product-card:hover {*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.product-card:hover img {*/
-/*    opacity: .92;*/
-/*}*/
-
-/*.product-card:hover .product-title {*/
-/*    text-decoration: underline;*/
-/*}*/
-
-
+.filtersBtn:hover{
+    border-color: black;
+}
 
 
 /* ===== PRODUCTS HEADER ===== */

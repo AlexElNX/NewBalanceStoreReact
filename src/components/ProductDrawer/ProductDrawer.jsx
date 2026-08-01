@@ -2,7 +2,7 @@ import styles from './ProductDrawer.module.css'
 import { useState } from "react";
 import { addToCart } from "../../utils/cartStorage.js";
 
-function ProductDrawer({product, activeColor, onClose}) {
+function ProductDrawer({product, activeColor, onClose, onAddedToCart}) {
     if (!product) return null;
 
     const [selectedColor, setSelectedColor] = useState(activeColor);
@@ -17,10 +17,16 @@ function ProductDrawer({product, activeColor, onClose}) {
             ? [7,7.5,8,8.5,9,9.5,10,10.5,11,11.5]
             : ["XS","S","M","L","XL","2XL"];
 
+    const [sizeError, setSizeError] = useState(false);
     const handleAddToCart = () => {
 
         if (!selectedSize) {
-            alert("Please select a size");
+            setSizeError(true);
+
+            setTimeout(() => {
+                setSizeError(false);
+            }, 2000);
+
             return;
         }
 
@@ -29,7 +35,7 @@ function ProductDrawer({product, activeColor, onClose}) {
             selectedColor,
             selectedSize
         );
-
+        onAddedToCart();
         onClose();
     };
     return (
@@ -95,7 +101,10 @@ function ProductDrawer({product, activeColor, onClose}) {
                                 <button
                                     key={size}
                                     disabled={!available}
-                                    onClick={() => setSelectedSize(size)}
+                                    onClick={() => {
+                                        setSelectedSize(size);
+                                        setSizeError(false);
+                                    }}
                                     className={`
                                         ${styles.drawerSize}
                                         ${size === selectedSize ? styles.active : ""}
@@ -106,6 +115,13 @@ function ProductDrawer({product, activeColor, onClose}) {
                             );
                         })}
                     </div>
+
+                    {sizeError && (
+                        <div className={styles.sizeError}>
+                            Please select a size
+                        </div>
+                    )}
+
 
                     <button onClick={handleAddToCart}
                             className={styles.drawerAddToCart}
