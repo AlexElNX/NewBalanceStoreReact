@@ -1,6 +1,7 @@
 import styles from './CartSummary.module.css'
 import { useNavigate } from "react-router-dom";
-import { products } from "../../../data/productsData.js";
+import { useEffect, useState } from "react";
+import { getProducts } from "../../../services/productsService.js";
 
 function SummaryRow({ left, right }) {
     return (
@@ -12,6 +13,22 @@ function SummaryRow({ left, right }) {
 }
 
 function CartSummary({ cart }) {
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        async function loadProducts() {
+            setProducts(await getProducts());
+        }
+        loadProducts();
+    }, []);
+
+    const navigate = useNavigate();
+
+    if (!products.length) {
+        return <p>Loading...</p>;
+    }
+
+
     const cartProducts = cart.map(item => {
         const product = products.find(p => p.id === item.productId);
 
@@ -25,10 +42,10 @@ function CartSummary({ cart }) {
         (sum, item) => sum + item.product.price * item.quantity, 0
     );
 
-    const navigate = useNavigate();
     const checkoutClick = () => {
         navigate("/checkout");
     }
+
 
     return (
         <>

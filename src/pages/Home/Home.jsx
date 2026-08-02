@@ -3,11 +3,38 @@ import MainHeader from "../../components/MainHeader/MainHeader.jsx";
 import TopHeader from "../../components/TopHeader/TopHeader.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import ProductCard from "../../components/ProductCard/ProductCard.jsx";
-import { products } from "../../data/homePageProducts.js";
-import {useRef} from "react";
+import { useEffect, useRef, useState } from "react";
+import { getProducts } from "../../services/productsService.js";
 
 function Home() {
     const heroRef = useRef(null);
+
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+
+        async function loadProducts() {
+
+            try {
+                const data = await getProducts();
+
+                setProducts(
+                    data.filter(product => product.featured)
+                );
+            }
+            catch(err){
+                setError(err);
+            }
+            finally{
+                setLoading(false);
+            }
+        }
+
+        loadProducts();
+
+    }, []);
 
     return (
         <>
@@ -68,13 +95,19 @@ function Home() {
 
 
                 <section className="product-grid">
-                    {products.map(product => (
-                        <ProductCard
-                            key={product.id}
-                            product={product}
-                            page={"home"}
-                        />
-                    ))}
+                    {loading && <p>Loading products...</p>}
+
+                    {error && <p>Failed to load products.</p>}
+
+                    {!loading && !error &&
+                        products.map(product => (
+                            <ProductCard
+                                key={product.id}
+                                product={product}
+                                page={"home"}
+                            />
+                        ))
+                    }
                 </section>
 
                 <section className="featured-products">

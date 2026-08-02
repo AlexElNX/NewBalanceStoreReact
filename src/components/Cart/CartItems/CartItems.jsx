@@ -1,9 +1,23 @@
 import styles from './CartItems.module.css';
-import { products } from "../../../data/productsData";
 import CartItem from "../CartItem/CartItem";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getProducts } from "../../../services/productsService.js";
 
 function CartItems({cart, setCart}) {
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        async function loadProducts() {
+            setProducts(await getProducts());
+        }
+
+        loadProducts();
+    }, []);
+
+    if (!products.length) {
+        return <p>Loading...</p>;
+    }
 
     const cartProducts = cart.map(item => ({
         ...item,

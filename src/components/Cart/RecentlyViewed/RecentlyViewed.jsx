@@ -1,10 +1,20 @@
 import styles from './RecentlyViewed.module.css';
 import { getRecentlyViewed } from "../../../utils/recentlyViewed.js";
 import ProductCard from "../../ProductCard/ProductCard.jsx";
-import { products } from "../../../data/productsData.js";
-
+import { useEffect, useState } from "react";
+import { getProducts } from "../../../services/productsService.js";
 
 function RecentlyViewed() {
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        async function loadProducts() {
+            const data = await getProducts();
+            setProducts(data.filter(product => !product.featured));
+        }
+
+        loadProducts();
+    }, []);
 
     const ids = getRecentlyViewed();
 

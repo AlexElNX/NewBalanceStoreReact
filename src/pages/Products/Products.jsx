@@ -2,17 +2,41 @@ import styles from "./Products.module.css";
 import Footer from "../../components/Footer/Footer.jsx";
 import TopHeader from "../../components/TopHeader/TopHeader.jsx";
 import MainHeader from "../../components/MainHeader/MainHeader.jsx";
-import { products } from "../../data/productsData.js";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { useSearchParams } from "react-router-dom";
 import ProductFilters from "../../components/ProductFilters/ProductFilters.jsx";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ProductDrawer from "../../components/ProductDrawer/ProductDrawer.jsx";
 import { addToRecentlyViewed } from "../../utils/recentlyViewed.js";
 import AddedToBagPopup from "../../components/AddedToBagPopup/AddedToBagPopup.jsx";
+import { getProducts } from "../../services/productsService.js";
 
 
 function Products() {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    useEffect(() => {
+
+        async function loadProducts() {
+
+            try {
+                const data = await getProducts();
+
+                setProducts(data.filter(product => !product.featured));
+            }
+            catch(err){
+                setError(err);
+            }
+            finally{
+                setLoading(false);
+            }
+        }
+
+        loadProducts();
+
+    }, []);
+
     const [searchParams] = useSearchParams();
     const gender = searchParams.get("gender");
     const sale = searchParams.get("sale");
@@ -219,19 +243,25 @@ function Products() {
 
                     <div className={styles.productsContent}>
                         <section className={`${styles.productGrid} ${!showFilters ? styles.productGridWide : ""}`}>
-                            {sortedProducts.map(product => (
-                                <ProductCard
-                                    key={product.id}
-                                    product={product}
-                                    onQuickAdd={(product, color) => {
-                                        addToRecentlyViewed(product);
+                            {loading && <p>Loading products...</p>}
 
-                                        setSelectedProduct(product);
-                                        setSelectedColor(color);
-                                    }}
-                                    page={"products"}
-                                />
-                            ))}
+                            {error && <p>Failed to load products.</p>}
+
+                            {!loading && !error &&
+                                sortedProducts.map(product => (
+                                    <ProductCard
+                                        key={product.id}
+                                        product={product}
+                                        onQuickAdd={(product, color) => {
+                                            addToRecentlyViewed(product);
+
+                                            setSelectedProduct(product);
+                                            setSelectedColor(color);
+                                        }}
+                                        page={"products"}
+                                    />
+                                ))
+                            }
                         </section>
                     </div>
                 </div>
