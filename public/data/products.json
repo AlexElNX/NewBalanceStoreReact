@@ -152,8 +152,7 @@
     "colors": ["white", "black", "gray", "tan"],
     "sizes": [7, 7.5, 8, 8.5, 9, 9.5],
     "isNew": false,
-    "bestSeller": true,
-    "isSale": true
+    "inStock": false
   },
   {
     "id": 8,

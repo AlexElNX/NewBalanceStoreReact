@@ -1,7 +1,8 @@
 import styles from './CartItem.module.css'
-import { updateCartQuantity, removeFromCart, getCart } from "../../../utils/cartStorage";
+import { getCart, saveCart } from "../../../utils/cartStorage";
 import ConfirmModal from "../../ConfirmModal/ConfirmModal.jsx";
-import {useState} from "react";
+import { useState } from "react";
+import { Cart } from "../../../entities/Cart.js";
 
 function CartItem({ cartProduct, setCart }) {
     const product = cartProduct.product;
@@ -22,30 +23,35 @@ function CartItem({ cartProduct, setCart }) {
     };
     const color = cartProduct.color;
 
+    const cart = new Cart(getCart());
     const increaseQuantity = () => {
         if (cartProduct.quantity >= 5) return;
 
-        updateCartQuantity(
+        cart.updateQuantity(
             product.id,
             cartProduct.color,
             cartProduct.size,
             cartProduct.quantity + 1
         );
 
-        setCart(getCart());
+        saveCart(cart.products);
+
+        setCart(new Cart(getCart()));
     };
 
     const qtyDecreaseClick = () => {
         if (cartProduct.quantity <= 1) return;
 
-        updateCartQuantity(
+        cart.updateQuantity(
             product.id,
             cartProduct.color,
             cartProduct.size,
             cartProduct.quantity - 1
         );
 
-        setCart(getCart());
+        saveCart(cart.products);
+
+        setCart(new Cart(getCart()));
     };
 
 
@@ -55,14 +61,15 @@ function CartItem({ cartProduct, setCart }) {
     };
 
     const confirmRemove = () => {
-
-        removeFromCart(
+        cart.removeProduct(
             product.id,
             cartProduct.color,
             cartProduct.size
         );
 
-        setCart(getCart());
+        saveCart(cart.products);
+
+        setCart(new Cart(getCart()));
 
         setShowConfirm(false);
     };

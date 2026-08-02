@@ -28,19 +28,7 @@ function CartSummary({ cart }) {
         return <p>Loading...</p>;
     }
 
-
-    const cartProducts = cart.map(item => {
-        const product = products.find(p => p.id === item.productId);
-
-        return {
-            ...item,
-            product
-        };
-    });
-
-    const subtotal = cartProducts.reduce(
-        (sum, item) => sum + item.product.price * item.quantity, 0
-    );
+    const subtotal = cart.getSubtotal(products);
 
     const checkoutClick = () => {
         navigate("/checkout");

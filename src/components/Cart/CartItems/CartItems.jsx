@@ -19,15 +19,9 @@ function CartItems({cart, setCart}) {
         return <p>Loading...</p>;
     }
 
-    const cartProducts = cart.map(item => ({
-        ...item,
-        product: products.find(p => p.id === item.productId)
-    }));
+    const cartProducts = cart.getItems(products);
 
-    const productCount = cartProducts.reduce(
-        (sum, item) => sum + item.quantity,
-        0
-    );
+    const productCount = cart.getProductCount();
 
     return (
         <div className={styles.cartItems}>
@@ -40,7 +34,7 @@ function CartItems({cart, setCart}) {
                 </span>
             </div>
 
-            { cartProducts.length === 0 ? (
+            { cart.isEmpty() ? (
                     <div className={styles.emptyCart}>
                         <h3>Your bag is empty</h3>
 

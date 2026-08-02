@@ -91,7 +91,7 @@ input[type=tel] {
     border: 2px solid #d90000 !important;
 }
 
-shippingSection > input[type="text"] {
+.shippingSection > input[type="text"] {
     width: 850px;
     margin-top: 8px;
 }

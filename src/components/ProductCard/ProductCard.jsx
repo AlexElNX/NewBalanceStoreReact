@@ -54,7 +54,7 @@ function ProductCard({ product, onQuickAdd, page }) {
                                 .map(color => (
                                     <img
                                         key={color}
-                                        src={product.images[color][0]}
+                                        src={product.getMainImage(color)}
                                         onClick={() => setActiveColor(color)}
                                         className={
                                             color === activeColor
@@ -107,7 +107,7 @@ function ProductCard({ product, onQuickAdd, page }) {
             <div className={styles.productPrice}>
                 ${product.price}
 
-                {product.oldPrice && (
+                {product.hasDiscount() && (
                     <span className={styles.oldPrice}>
                         ${product.oldPrice}
                     </span>

@@ -1,6 +1,7 @@
 import styles from './ProductDrawer.module.css'
 import { useState } from "react";
-import { addToCart } from "../../utils/cartStorage.js";
+import {getCart, saveCart} from "../../utils/cartStorage.js";
+import { Cart } from "../../entities/Cart.js";
 
 function ProductDrawer({product, activeColor, onClose, onAddedToCart}) {
     if (!product) return null;
@@ -30,11 +31,15 @@ function ProductDrawer({product, activeColor, onClose, onAddedToCart}) {
             return;
         }
 
-        addToCart(
+        const cart = new Cart(getCart());
+        cart.addProduct(
             product,
             selectedColor,
             selectedSize
         );
+
+        saveCart(cart.products);
+
         onAddedToCart();
         onClose();
     };

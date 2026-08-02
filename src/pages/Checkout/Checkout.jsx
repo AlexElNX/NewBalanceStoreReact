@@ -3,6 +3,7 @@ import { Link }  from "react-router-dom";
 import { getCart } from "../../utils/cartStorage.js";
 import { useEffect, useState } from "react";
 import { getProducts } from "../../services/productsService.js";
+import { Cart } from "../../entities/Cart.js";
 
 function Checkout() {
     const [products, setProducts] = useState([]);
@@ -19,23 +20,14 @@ function Checkout() {
         return <p>Loading...</p>;
     }
 
-    const cart = getCart();
+    const cart = new Cart(getCart());
 
-    const cartProducts = cart.map(item => {
-        const product = products.find(p => p.id === item.productId);
+    const cartProducts = cart.getItems(products);
 
-        return {
-            ...item,
-            product
-        };
-    });
+    const subtotal = cart.getSubtotal(products);
 
-    const subtotal = cartProducts.reduce((sum, item) => {
-        return sum + item.product.price * item.quantity;
-    }, 0);
-
-    const tax = subtotal * 0.08;
-    const total = subtotal + tax;
+    const tax = cart.getTax(products);
+    const total = cart.getTotal(products);
 
     return (
         <>

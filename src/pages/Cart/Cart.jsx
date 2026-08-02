@@ -7,12 +7,15 @@ import CartItems from "../../components/Cart/CartItems/CartItems.jsx";
 import { useRef, useState } from "react";
 import { getCart } from "../../utils/cartStorage.js";
 import RecentlyViewed from "../../components/Cart/RecentlyViewed/RecentlyViewed.jsx";
-
+import { Cart as CartEntity } from "../../entities/Cart.js";
 
 function Cart() {
-    const [cart, setCart] = useState(getCart());
+    const [cart, setCart] = useState(
+        new CartEntity(getCart())
+    );
+
     const cartRef = useRef(null);
-    const hasItems = cart.length > 0;
+    const hasItems = !cart.isEmpty();
     return (
         <>
             <TopHeader />

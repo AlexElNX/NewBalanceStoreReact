@@ -59,7 +59,7 @@ function Products() {
         if(activity && product.activity.toLowerCase() !== activity)
             return false;
 
-        if (sale === "true" && !product.isSale)
+        if (sale === "true" && !product.hasDiscount())
             return false;
 
         if (isNew === "true" && !product.isNew)
@@ -142,7 +142,7 @@ function Products() {
             break;
 
         case "available":
-            sortedProducts.sort((a, b) => Number(b.inStock) - Number(a.inStock));
+            sortedProducts.sort((a, b) => Number(b.isAvailable()) - Number(a.isAvailable()));
             break;
 
         default:
