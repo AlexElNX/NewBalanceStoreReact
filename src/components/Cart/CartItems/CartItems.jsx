@@ -1,10 +1,10 @@
 import styles from './CartItems.module.css';
-import CartItem from "../CartItem/CartItem";
+import CartItem from "../CartItem/CartItem.jsx";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProducts } from "../../../services/productsService.js";
 
-function CartItems({cart, setCart}) {
+function CartItems({ cart }) {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -51,7 +51,6 @@ function CartItems({cart, setCart}) {
                     <CartItem
                     key={`${item.product.id}-${item.color}-${item.size}`}
                     cartProduct={item}
-                    setCart={setCart}
                 />
                 ))
             )}

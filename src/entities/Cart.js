@@ -15,6 +15,10 @@ export class Cart {
     );
 
     if (existingItem) {
+      if (existingItem.quantity >= 5) {
+        return;
+      }
+
       ++existingItem.quantity;
     }
     else {

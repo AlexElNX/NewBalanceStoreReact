@@ -46,9 +46,11 @@ function Products() {
     const activity = searchParams.get("activity");
 
     const urlFilteredProducts = products.filter(product => {
-        if (product.gender.toLowerCase() === "unisex" && (gender === "men" || gender === "women")) {
-        } else if (gender && product.gender.toLowerCase() !== gender)
+        const productGender = product.gender.toLowerCase();
+        const isUnisex = productGender === "unisex" && (gender === "men" || gender === "women");
+        if(gender && !isUnisex && productGender !== gender) {
             return false;
+        }
 
         if(type && product.type.toLowerCase() !== type)
             return false;
@@ -152,9 +154,11 @@ function Products() {
     const breadcrumbs = [""];
     if (sale === "true") {
         breadcrumbs.push("Sale");
-    } else if (isNew === "true") {
+    }
+    else if (isNew === "true") {
         breadcrumbs.push("New Arrivals");
-    } else if (gender) {
+    }
+    else if (gender) {
         breadcrumbs.push(gender.charAt(0).toUpperCase() + gender.slice(1));
 
         if(type) {
@@ -174,7 +178,8 @@ function Products() {
             else
                 breadcrumbs.push(category.charAt(0).toUpperCase() + category.slice(1));
 
-        } else if(activity) {
+        }
+        else if(activity) {
             breadcrumbs.push(" / ");
             breadcrumbs.push(activity.charAt(0).toUpperCase() + activity.slice(1));
         }
@@ -196,6 +201,7 @@ function Products() {
 
     const [showFilters, setShowFilters] = useState(true);
     const pageRef = useRef(null);
+
 
     return (
         <>

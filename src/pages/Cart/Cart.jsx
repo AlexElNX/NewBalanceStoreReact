@@ -4,15 +4,12 @@ import MainHeader from "../../components/MainHeader/MainHeader.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import CartSummary from "../../components/Cart/CartSummary/CartSummary.jsx";
 import CartItems from "../../components/Cart/CartItems/CartItems.jsx";
-import { useRef, useState } from "react";
-import { getCart } from "../../utils/cartStorage.js";
+import { useRef } from "react";
 import RecentlyViewed from "../../components/Cart/RecentlyViewed/RecentlyViewed.jsx";
-import { Cart as CartEntity } from "../../entities/Cart.js";
+import { useCart } from "../../context/useCart.js";
 
 function Cart() {
-    const [cart, setCart] = useState(
-        new CartEntity(getCart())
-    );
+    const { cart } = useCart();
 
     const cartRef = useRef(null);
     const hasItems = !cart.isEmpty();
@@ -31,7 +28,6 @@ function Cart() {
             <div className={`${styles.cartContainer} ${!hasItems ? styles.cartContainerFull : ""}`}>
                 <CartItems
                     cart={cart}
-                    setCart={setCart}
                 />
 
                 {hasItems && (

@@ -1,11 +1,12 @@
 import styles from './CartItem.module.css'
-import { getCart, saveCart } from "../../../utils/cartStorage";
 import ConfirmModal from "../../ConfirmModal/ConfirmModal.jsx";
 import { useState } from "react";
-import { Cart } from "../../../entities/Cart.js";
+import { useCart } from "../../../context/useCart.js";
 
-function CartItem({ cartProduct, setCart }) {
+function CartItem({ cartProduct }) {
     const product = cartProduct.product;
+
+    const { dispatch } = useCart();
 
     const colorMap = {
         white1: "White",
@@ -23,35 +24,32 @@ function CartItem({ cartProduct, setCart }) {
     };
     const color = cartProduct.color;
 
-    const cart = new Cart(getCart());
     const increaseQuantity = () => {
         if (cartProduct.quantity >= 5) return;
 
-        cart.updateQuantity(
-            product.id,
-            cartProduct.color,
-            cartProduct.size,
-            cartProduct.quantity + 1
-        );
-
-        saveCart(cart.products);
-
-        setCart(new Cart(getCart()));
+        dispatch({
+            type: "UPDATE_QUANTITY",
+            payload: {
+                id: product.id,
+                color: cartProduct.color,
+                size: cartProduct.size,
+                quantity: cartProduct.quantity + 1
+            }
+        });
     };
 
     const qtyDecreaseClick = () => {
         if (cartProduct.quantity <= 1) return;
 
-        cart.updateQuantity(
-            product.id,
-            cartProduct.color,
-            cartProduct.size,
-            cartProduct.quantity - 1
-        );
-
-        saveCart(cart.products);
-
-        setCart(new Cart(getCart()));
+        dispatch({
+            type: "UPDATE_QUANTITY",
+            payload: {
+                id: product.id,
+                color: cartProduct.color,
+                size: cartProduct.size,
+                quantity: cartProduct.quantity - 1
+            }
+        });
     };
 
 
@@ -61,15 +59,14 @@ function CartItem({ cartProduct, setCart }) {
     };
 
     const confirmRemove = () => {
-        cart.removeProduct(
-            product.id,
-            cartProduct.color,
-            cartProduct.size
-        );
-
-        saveCart(cart.products);
-
-        setCart(new Cart(getCart()));
+        dispatch({
+            type: "REMOVE_PRODUCT",
+            payload: {
+                id: product.id,
+                color: cartProduct.color,
+                size: cartProduct.size
+            }
+        });
 
         setShowConfirm(false);
     };

@@ -1,24 +1,25 @@
 import styles from './ProductDrawer.module.css'
 import { useState } from "react";
-import {getCart, saveCart} from "../../utils/cartStorage.js";
-import { Cart } from "../../entities/Cart.js";
+import { useCart } from "../../context/useCart.js";
 
-function ProductDrawer({product, activeColor, onClose, onAddedToCart}) {
-    if (!product) return null;
+function ProductDrawer({ product, activeColor, onClose, onAddedToCart }) {
+    const { dispatch } = useCart();
 
     const [selectedColor, setSelectedColor] = useState(activeColor);
     const [selectedSize, setSelectedSize] = useState(null);
     const [imageIndex, setImageIndex] = useState(0);
+    const [sizeError, setSizeError] = useState(false);
+
+    if (!product) return null;
 
     const images = product.images[selectedColor];
-
 
     const allSizes =
         product.type === "Footwear"
             ? [7,7.5,8,8.5,9,9.5,10,10.5,11,11.5]
             : ["XS","S","M","L","XL","2XL"];
 
-    const [sizeError, setSizeError] = useState(false);
+
     const handleAddToCart = () => {
 
         if (!selectedSize) {
@@ -31,14 +32,14 @@ function ProductDrawer({product, activeColor, onClose, onAddedToCart}) {
             return;
         }
 
-        const cart = new Cart(getCart());
-        cart.addProduct(
-            product,
-            selectedColor,
-            selectedSize
-        );
-
-        saveCart(cart.products);
+        dispatch({
+            type: "ADD_PRODUCT",
+            payload: {
+                product,
+                color: selectedColor,
+                size: selectedSize,
+            }
+        });
 
         onAddedToCart();
         onClose();
