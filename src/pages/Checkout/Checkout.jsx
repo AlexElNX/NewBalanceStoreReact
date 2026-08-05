@@ -8,13 +8,24 @@ import { Cart } from "../../entities/Cart.js";
 function Checkout() {
     const [products, setProducts] = useState([]);
 
+    const [form, setForm] = useState({
+        email: "",
+        phone: "",
+        firstName: "",
+        lastName: "",
+        address: "",
+        country: "United States",
+        newsletter: false,
+    });
+
     useEffect(() => {
         async function loadProducts() {
             setProducts(await getProducts());
         }
-
         loadProducts();
     }, []);
+
+
 
     if (!products.length) {
         return <p>Loading...</p>;
@@ -24,11 +35,38 @@ function Checkout() {
 
     const cartProducts = cart.getItems(products);
 
+    const originalPrice = cart.getOriginalPrice(products);
+    const savings = cart.getSavings(products);
+
     const subtotal = cart.getSubtotal(products);
+    const hasDiscount = originalPrice > subtotal;
 
     const tax = cart.getTax(products);
     const total = cart.getTotal(products);
 
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+
+        setForm(prev => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value
+        }));
+    };
+
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);
+
+    const phoneValid = /^\+?[0-9\s()-]{10,20}$/.test(form.phone);
+
+    const formValid =
+        emailValid &&
+        phoneValid &&
+        form.firstName &&
+        form.lastName &&
+        form.address;
+
+    function handleSubmit() {
+        alert("Checkout successfully");
+    }
     return (
         <>
 
@@ -64,11 +102,11 @@ function Checkout() {
                         <section className={`${styles.section} ${styles.contactSection}`}>
                             <h2>Contact</h2>
                             <div className={styles.row}>
-                                <input id="email" type="email" placeholder="Email"/>
-                                <input id="phone" type="tel" placeholder="Phone number"/>
+                                <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange}/>
+                                <input name="phone" type="tel" placeholder="Phone number" value={form.phone} onChange={handleChange}/>
                             </div>
                             <label className={styles.newsletter}>
-                                <input type="checkbox"/> Sign up for email to hear about product launches, exclusive
+                                <input name="newsletter" type="checkbox" checked={form.newsletter} onChange={handleChange}/> Sign up for email to hear about product launches, exclusive
                                 offers and athlete news. By subscribing, I am agreeing to the New Balance <a href="#">Privacy
                                 Policy</a> and <a href="#">Terms & Conditions</a>.
                             </label>
@@ -77,19 +115,36 @@ function Checkout() {
                         <section className={`${styles.section} ${styles.shippingSection}`}>
                             <h2>Shipping address</h2>
                             <div className={styles.row}>
-                                <input id="first-name" type="text" placeholder="First Name"/>
-                                <input id="last-name" type="text" placeholder="Last Name"/>
+                                <input name="firstName" type="text" placeholder="First Name" value={form.firstName} onChange={handleChange}/>
+                                <input name="lastName" type="text" placeholder="Last Name" value={form.lastName} onChange={handleChange}/>
                             </div>
-                            <input id="address" type="text" placeholder="Street Address"/>
+                            <input name="address" type="text" placeholder="Street Address" value={form.address} onChange={handleChange}/>
                         </section>
 
-                        <button className={styles.continueBtn}>Continue to Payment</button>
+                        <button disabled={!formValid} className={styles.continueBtn} onClick={handleSubmit}>Continue to Payment</button>
 
                     </div>
 
                     {/*Summary Section*/}
                     <aside className={styles.summary}>
                         <h2>Order Summary</h2>
+
+                        {hasDiscount && (
+                            <>
+                                <p className={styles.summaryRow}>
+                                    <span>Original Price</span>
+                                    <span>${originalPrice.toFixed(2)}</span>
+                                </p>
+
+                                <p className={styles.summaryRow}>
+                                    <span>Your savings</span>
+                                    <span>${savings.toFixed(2)}</span>
+                                </p>
+
+                            </>
+                        )
+
+                        }
 
                         <p className={styles.summaryRow}>
                             <span>Subtotal</span>

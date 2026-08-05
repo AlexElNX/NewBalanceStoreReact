@@ -54,24 +54,46 @@ export class Cart {
   }
 
   getItems(products) {
-    return this.products.map(item => ({
-      ...item,
-      product: products.find(p => p.id === item.productId)
-    }));
+    const items = [];
+
+    for (const item of this.products) {
+
+      const product = products.find(p => p.id === item.productId);
+
+      items.push({
+        productId: item.productId,
+        color: item.color,
+        size: item.size,
+        quantity: item.quantity,
+        product: product
+      });
+
+    }
+
+    return items;
   }
 
   getSubtotal(products) {
-    return this.getItems(products).reduce(
-        (sum, item) => sum + item.product.price * item.quantity,
-        0
-    );
+    let subtotal = 0;
+
+    const items = this.getItems(products);
+
+    for (const item of items) {
+      subtotal += item.product.price * item.quantity;
+    }
+
+    return subtotal;
+
   }
 
   getProductCount() {
-    return this.products.reduce(
-        (sum, item) => sum + item.quantity,
-        0
-    );
+    let count = 0;
+
+    for (const item of this.products) {
+      count += item.quantity;
+    }
+
+    return count;
   }
 
   isEmpty() {
@@ -84,5 +106,30 @@ export class Cart {
 
   getTotal(products) {
     return this.getSubtotal(products) + this.getTax(products);
+  }
+
+  getOriginalPrice(products) {
+    let total = 0;
+
+    const items = this.getItems(products);
+
+    for (const item of items) {
+      let price;
+
+      if (item.product.hasDiscount()) {
+        price = item.product.oldPrice;
+      }
+      else {
+        price = item.product.price;
+      }
+
+      total += price * item.quantity;
+    }
+
+    return total;
+  }
+
+  getSavings(products) {
+    return this.getOriginalPrice(products) - this.getSubtotal(products);
   }
 }
