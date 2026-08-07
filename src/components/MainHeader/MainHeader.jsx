@@ -320,7 +320,9 @@ function MainHeader({
 
                 <div className="header-icons">
                     <img className="search-icon" src="../src/assets/icons/header/search-icon.svg" alt=""/>
-                    <img className="account-icon" src="../src/assets/icons/header/account-icon.svg" alt=""/>
+                    <Link to={"/login"} className="login-link">
+                        <img className="account-icon" src="../src/assets/icons/header/account-icon.svg" alt=""/>
+                    </Link>
 
                     <Link to={"/cart"} className="cart-link">
                         <img className="bag-icon" src="../src/assets/icons/header/bag-icon.svg" alt=""/>

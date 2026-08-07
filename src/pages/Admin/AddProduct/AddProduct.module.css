@@ -1,0 +1,61 @@
+html {
+    color: #222;
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+body {
+    background-color: white;
+    font-family: Arial, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.addProduct .mainHeader {
+    background: white;
+    color: black;
+}
+
+body.addProduct .mainHeader .nav-menu a {
+    color: black;
+}
+
+body.addProduct .mainHeader .logo {
+    filter: brightness(1) invert(0);
+}
+
+body.addProduct .mainHeader .header-icons img {
+    filter: brightness(0);
+}
+
+.addProduct.hero {
+    position: relative;
+    width: 1940px;
+    max-width: 95vw;
+    height: 10px;
+    min-height: 10px;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+.addProduct .mainHeader {
+    position: relative;
+    background: white;
+    color: black;
+}
+
+.addProduct .nav-menu a {
+    color: black;
+}
+
+.addProduct .logo {
+    filter: brightness(1) invert(0);
+}
+
+.addProduct .header-icons img {
+    filter: brightness(0);
+}

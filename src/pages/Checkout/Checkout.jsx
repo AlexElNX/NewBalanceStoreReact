@@ -64,9 +64,20 @@ function Checkout() {
         form.lastName &&
         form.address;
 
+
+    const order = {
+        customer: form,
+        products: cartProducts,
+        subtotal,
+        tax,
+        total,
+    };
+
+
     function handleSubmit() {
-        alert("Checkout successfully");
+        console.log(order);
     }
+
     return (
         <>
 

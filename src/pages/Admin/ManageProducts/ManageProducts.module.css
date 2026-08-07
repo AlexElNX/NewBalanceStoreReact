@@ -1,0 +1,61 @@
+html {
+    color: #222;
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+body {
+    background-color: white;
+    font-family: Arial, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.manageProducts .mainHeader {
+    background: white;
+    color: black;
+}
+
+body.manageProducts .mainHeader .nav-menu a {
+    color: black;
+}
+
+body.manageProducts .mainHeader .logo {
+    filter: brightness(1) invert(0);
+}
+
+body.manageProducts .mainHeader .header-icons img {
+    filter: brightness(0);
+}
+
+.manageProducts.hero {
+    position: relative;
+    width: 1940px;
+    max-width: 95vw;
+    height: 10px;
+    min-height: 10px;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+.manageProducts .mainHeader {
+    position: relative;
+    background: white;
+    color: black;
+}
+
+.manageProducts .nav-menu a {
+    color: black;
+}
+
+.manageProducts .logo {
+    filter: brightness(1) invert(0);
+}
+
+.manageProducts .header-icons img {
+    filter: brightness(0);
+}

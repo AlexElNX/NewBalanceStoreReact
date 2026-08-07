@@ -4,6 +4,10 @@ import Home from "./pages/Home/Home.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
 import Products from "./pages/Products/Products.jsx";
 import Checkout from "./pages/Checkout/Checkout.jsx";
+import Login from "./pages/Login/Login.jsx";
+import Admin from "./pages/Admin/Admin/Admin.jsx";
+import AddProduct from "./pages/Admin/AddProduct/AddProduct.jsx";
+import ManageProducts from "./pages/Admin/ManageProducts/ManageProducts.jsx";
 
 function App() {
 
@@ -14,6 +18,12 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/add-product" element={<AddProduct />} />
+            <Route path="/manage-products" element={<ManageProducts />} />
+            <Route path="/login" element={<Login />} />
+
+
         </Routes>
     </>
   )
